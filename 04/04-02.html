@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        
+    <style>
+
+        body {
+            margin: 0;
+        }
+
+        .svg {
+            position: absolute;
+            width:100%;
+            height:100%;
+            background: #ddd;
+        }
+
+        text {
+            font-size: 1.5rem;
+            font-weight: bold;;
+
+            fill:red;
+        }
+
+        path {
+            stroke: red;
+            fill:transparent
+        }
+        tspan.special {
+            fill: dodgerblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <svg class="svg">
+
+        <!-- 참조영역  defs -->
+        <defs>
+            <path id="text-curve" d="M 50 400 C 50 400, 300 500, 400 400 C 400 400, 600 170, 700 300"/>
+        <defs/>
+
+        <!-- 커브를 따라서 텍스트를 만들 수 있다. -->
+        <text x="20" y="50" class="text"> 
+            <textPath href="#text-curve">
+                <tspan class="special">프론트엔드 개발자</tspan> 조병규입니다. svg를 학습하고 있습니다. 그래픽과 시각화에 관심이 있으며 d3.js를 기반으로 시각화 구현을 차근차근 학습해 나갈 예정입니다.
+                코로나 시대에 1년 넘게 거리두기를 하면서 생산적인 시간을 보내기 위해 업무 공부에 많은 시간을 쓰고 있습니다. svg 택스트 테그 학습을 위해서 뻘소리를 쓰는 중입니다. 
+
+            </textPath>
+        </text>
+    </svg>
+    
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "learnsvg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Byeonggyu <byeonggyu303@gmail.com>",
+  "license": "ISC"
+}
