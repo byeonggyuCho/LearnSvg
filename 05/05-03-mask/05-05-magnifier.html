@@ -19,6 +19,8 @@
 <body>
   <svg class="the-svg">
     <defs>
+
+      <!-- 얼굴 패턴 10개씩 들어가게 설정 -->
       <pattern id="pattern-bg" x="0" y="0" width="0.1" height="0.1">
         <path d="M138.61,133a29.89,29.89,0,1,1,21.14-8.75A29.72,29.72,0,0,1,138.61,133Zm0-55.38a25.49,25.49,0,1,0,18,7.46A25.32,25.32,0,0,0,138.61,77.63Z" transform="translate(-107 -64)"/>
         <g>
@@ -46,20 +48,26 @@
       </style>
 
       <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        const magnifierElem = document.querySelector('.magnifier');
-        const maskElem = document.querySelector('#mask-glass circle');
+        /**  DOMContentLoaded 돔구조가 로드되었을때, load: 이미지를 포함한 모든 이미지가 로드됐을 때*/
+        window.addEventListener('DOMContentLoaded', () => {
+          const magnifierElem = document.querySelector('.magnifier');
+          const maskElem = document.querySelector('#mask-glass circle');
 
-        window.addEventListener('mousemove', (e) => {
-          magnifierElem.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-          maskElem.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+          window.addEventListener('mousemove', (e) => {
+            magnifierElem.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            maskElem.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+          });
         });
-      });
       </script>
     </defs>
 
+
+    <!-- 돋보기 -->
     <path class="magnifier" d="M150.81 41.26a80.5 80.5 0 1 0-41.94 114.6l36.28 64.95a12 12 0 1 0 20.95-11.7l-36.29-64.95a80.51 80.51 0 0 0 21-102.9zm-41 91.63a60 60 0 1 1 23.12-81.64 60 60 0 0 1-23.12 81.64z" fill="#ce0000"/>
+
+    <!-- 마스크 효과를 적용 -->
     <g mask="url(#mask-glass)">
+      <!-- background -->
       <rect class="bg" x="0" y="0" width="100%" height="100%"></rect>
     </g>
   </svg>

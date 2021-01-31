@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SVG</title>
+  <style>
+    
+    /** 동공이 좌우로 움직이는 애니메이션 */
+    @keyframes pupil-ani {
+      0% {
+        transform: translateX(-20px);
+      }
+      100% {
+        transform: translateX(20px);
+      }
+    }
+
+    /** 눈꺼풀이 상하로 덮히는 애니메이션 */
+    @keyframes eye-ani {
+      80% {
+        transform: scaleY(1);
+      }
+      90% {
+        transform: scaleY(0.01);
+      }
+      100% {
+        transform: scaleY(0.01);
+      }
+    }
+
+    /** 레일 위를 달리는 이팩트 애니메이션 */
+    @keyframes ell-ani {
+      0% {
+        stroke-dashoffset: -713;
+      }
+      50% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: 713;
+      }
+    }
+
+
+    /* 3차원 축을 기준으로 회전시킨다. */
+    @keyframes rotate-ani-1 {
+      100% {
+        transform: rotate3D(0, 1, 0, 360deg);
+      }
+    }
+    @keyframes rotate-ani-2 {
+      100% {
+        transform: rotate3D(2, 1.22, 0, 360deg);
+      }
+    }
+    @keyframes rotate-ani-3 {
+      100% {
+        transform: rotate3D(-2, 1.22, 0, 360deg);
+      }
+    }
+    .react-mon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 200px;
+      height: 200px;
+      margin: auto;
+    }
+
+    /* 눈이 상하로 덮히는 애니매이션을 눈꺼풀에 적용*/
+    .eyelid {
+      transform-origin: 50% 50%;
+      animation: eye-ani 2s alternate linear infinite;
+    }
+    .pupil {
+      animation: pupil-ani 1s alternate linear infinite;
+    }
+    .cls-1 {
+      fill: none;
+      stroke: #61dafb;
+      stroke-width: 15px;
+      opacity: 0.3;
+    }
+    .cls-eff {
+      opacity: 1;
+      stroke-dasharray: 713;
+      /* 처음 위치 */
+      stroke-dashoffset: -713;
+      animation: ell-ani 0.7s infinite ease-in-out;
+    }
+    .cls-eff-2 { 
+      /* 각각의 이펙트에 지연시간을 줘서 시작 시점을 바꿔준다. */
+      animation-delay: 0.1s; 
+    }
+    .cls-eff-3 { animation-delay: 0.2s; }
+    .ells {
+      transform-origin: 50% 50%;
+    }
+    .ells-1 {
+      animation: rotate-ani-1 5s linear infinite;
+    }
+    .ells-2 {
+      animation: rotate-ani-2 5s linear infinite;
+    }
+    .ells-3 {
+      animation: rotate-ani-3 5s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <svg class="react-mon" viewBox="0 0 327 291.84">
+    <defs>
+      <mask id="eyelid">
+        <!-- 눈꺼풀 마스크 처리해야 동공이 눈꺼풀에 가려진다. -->
+        <!-- 마스크 영역에도  eyelid클래스로 마스크영역이 줄어들도록 애니메이션을 부여해야한다. -->
+        <ellipse class="eyelid" cx="163.5" cy="145.92" rx="28" ry="14" fill="#fff"/>
+      </mask>
+    </defs>
+    <!-- 반투명 레일과 그 레일위를 이팩트가 달리도록 애니메이션을 구현해야한다. -->
+    <!-- 따라서 레일과 이펙트를  같은 크기의 요소로 곂쳐그린다. -->
+    <g class="ells ells-1">
+      <ellipse class="cls-1" cx="163.5" cy="145.92" rx="156" ry="60"/>
+      <ellipse class="cls-1 cls-eff cls-eff-1" cx="163.5" cy="145.92" rx="156" ry="60"/>
+    </g>
+    <g class="ells ells-2">
+      <ellipse class="cls-1" cx="384" cy="384" rx="156" ry="60" transform="matrix(.5 -.87 .87 .5 -361.05 286.47)"/>
+      <ellipse class="cls-1 cls-eff cls-eff-2" cx="384" cy="384" rx="156" ry="60" transform="matrix(.5 -.87 .87 .5 -361.05 286.47)"/>
+    </g>
+    <g class="ells ells-3">
+      <ellipse class="cls-1" cx="384" cy="384" rx="60" ry="156" transform="rotate(-30 -170.504 676.413)"/>
+      <ellipse class="cls-1 cls-eff cls-eff-3" cx="384" cy="384" rx="60" ry="156" transform="rotate(-30 -170.504 676.413)"/>
+    </g>
+    <circle cx="163.5" cy="145.92" r="31" fill="#61dafb"/>
+    <ellipse class="eyelid" cx="163.5" cy="145.92" rx="28" ry="14" fill="#fff"/>
+    <g mask="url(#eyelid)">
+      <circle class="pupil" cx="163.5" cy="145.92" r="13" fill="#333"/>
+    </g>
+  </svg>
+
+  <script>
+  (() => {
+    const reactMonElem = document.querySelector('.react-mon');
+
+    // 마우스의 위치.
+    const targetPos = { x: 0, y: 0 };
+    // 가속도, 등속도가 아닌 감속을 구현.
+    const easeValue = 0.05;
+    const reactMonInfo = {
+      x: 0,
+      y: 0
+    };
+    
+    window.addEventListener('mousemove', (e) => {
+      // svg의 상대 좌표를 구한다.
+      targetPos.x = e.clientX - innerWidth * 0.5;
+      targetPos.y = e.clientY - innerHeight * 0.5;
+    });
+
+    let dx;
+    let dy;
+    function render() {
+
+      // 1. 도착지점과 현재위치의 차를 구한다.
+      dx = targetPos.x - reactMonInfo.x;
+      dy = targetPos.y - reactMonInfo.y;
+
+      // 2. 총 이동 거리의 0.05만큼움직인다. 
+      reactMonInfo.x = reactMonInfo.x + dx * easeValue;
+      reactMonInfo.y = reactMonInfo.y + dy * easeValue;
+      reactMonElem.style.transform = `translate3d(${reactMonInfo.x}px, ${reactMonInfo.y}px, 0px)`;
+
+      // 3. 반복하면서 위치를 갱신시켜준다. 
+      // 반복하면서 거리가 점점 줄어들기 때문에 마우스 근처로 도착하면 속도가 줄어들게 된다.
+      requestAnimationFrame(render);
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>

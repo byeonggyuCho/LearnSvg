@@ -22,8 +22,10 @@
 <body>
   <svg class="the-svg">
     <defs>
+      <!-- 흰색 영역에서는 보이고 검은색 영역에서는 안보인다. 검은색에 가까워질수록 안보인다.-->
+      <!-- 이걸 이용해서 돋보기 효과를 만들 수 있다. -->
       <mask id="mask-circle">
-        <circle cx="250" cy="70" r="40"></circle>
+        <circle cx="250" cy="70" r="40" fill="white"></circle>
       </mask>
       <style>
         #mask-circle circle {
