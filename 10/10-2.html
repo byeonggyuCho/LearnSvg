@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        @keyframes sample-ani {
+            0% {
+                transition: translate(0,0);
+            }
+            50% {
+                transition: translate(300px,0);
+            }
+            100% {
+                transition: translate(700px,400px);
+            }
+        }
+
+        .box {
+            width:100px;
+            height: 100px;
+            border: 2px solid #000;
+            background:#fff000;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            animation: sample-ani 2s linear infinite alternate; 
+        }
+        .box:hover{
+
+            /* 마우스가 올라가면 멈춘다.*/
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+</html>
